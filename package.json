@@ -12,21 +12,33 @@
   ],
   "license": "MIT",
   "scripts": {
+    "build": "yarn clean && tsc && cross-env NODE_ENV=production rollup -c",
+    "clean": "rimraf compiled",
+    "report": "codecov",
     "start": "cross-env NODE_ENV=development tsc-watch  --onSuccess \"rollup -c\"",
-    "build": "tsc && cross-env NODE_ENV=production rollup -c && cross-env NODE_ENV=development rollup -c && rimraf compiled"
+    "test": "jest --runInBand --updateSnapshot",
+    "test:coverage": "yarn test -- --coverage",
+    "test:watch": "yarn test -- --watch"
   },
   "peerDependencies": {
     "react": ">=15"
   },
   "devDependencies": {
+    "@types/jest": "^22.2.3",
     "@types/lodash.debounce": "^4.0.3",
     "@types/prop-types": "^15.5.2",
     "@types/query-string": "^5.1.0",
     "@types/react": "^16.3.11",
     "@types/react-native": "^0.55.2",
+    "codecov": "^3.0.1",
     "cross-env": "^5.1.4",
+    "dom-testing-library": "^1.10.0",
+    "jest": "^22.4.3",
     "prettier": "^1.12.1",
     "react": "^16.3.2",
+    "react-addons-test-utils": "^15.6.2",
+    "react-dom": "^16.3.2",
+    "react-testing-library": "^2.3.0",
     "rimraf": "^2.6.2",
     "rollup": "^0.58.0",
     "rollup-plugin-commonjs": "^9.1.0",
@@ -45,5 +57,30 @@
     "lodash.debounce": "^4.0.8",
     "prop-types": "^15.6.1",
     "query-string": "^6.0.0"
+  },
+  "jest": {
+    "bail": true,
+    "collectCoverageFrom": [
+      "lib/**/*.+(ts|tsx|js)"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "testMatch": [
+      "**/__tests__/*.+(ts|tsx|js)"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    }
   }
 }
